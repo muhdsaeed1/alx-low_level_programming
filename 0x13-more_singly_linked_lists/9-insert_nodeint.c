@@ -1,47 +1,43 @@
 #include "lists.h"
 /**
- * insert_nodeint_at_index - This function inserts a
- * new node at given position
- * @head: The head node
- * @idx: The index of the list where new node is to be added
- * @n: The integer data of the new node
- * Return: The address of the new inserted node or NULL if failed
+ * insert_nodeint_at_index - adds a new node to a linked list
+ *                           at a given position
+ * @head : pointer to the head of the list
+ * @idx  : index of the list where the new node will be added
+ *         (indices start at 0)
+ * @n    : value for the new node to be added
+ * Return: pointer to the new node,
+ *         or NULL - if function fails
  */
 listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 {
-	listint_t *node, *temp = *head;
-	size_t i = 0;
+listint_t *new, *temp = *head;
+unsigned int node;
 
-	node = malloc(sizeof(listint_t));
-	if (!node)
-		return (NULL);
+new = malloc(sizeof(listint_t));
 
-	node->n = n;
-	node->next = NULL;
+if (new == NULL)
+return (NULL);
 
-	if (!*head && !idx)
-	{
-		*head = node;
-		return (node);
-	}
+new->n = n;
 
-	else if (!*head && idx)
-		return (NULL);
+if (idx == 0)
+{
+new->next = temp;
+*head = new;
+return (new);
+}
 
-	else if (!idx)
-	{
-		node->next = temp;
-		*head = node;
-		return (node);
-	}
+for (node = 0; node < (idx - 1); node++)
+{
+if (temp == NULL || temp->next == NULL)
+return (NULL);
 
-	while (i < (idx - 1))
-	{
-		temp = temp->next;
-		i++;
-	}
-	node->next = temp->next;
-	temp->next = node;
+temp = temp->next;
+}
 
-	return (node);
+new->next = temp->next;
+temp->next = new;
+
+return (new);
 }
